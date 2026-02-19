@@ -138,7 +138,11 @@ describe("faqItems", () => {
 describe("layout metadata", () => {
   it("título contém QWork", async () => {
     const { metadata } = await import("@/app/layout");
-    expect(String(metadata.title)).toContain("QWork");
+    const title =
+      typeof metadata.title === "string"
+        ? metadata.title
+        : JSON.stringify(metadata.title);
+    expect(title).toContain("QWork");
   });
 
   it("descrição menciona COPSOQ III e NR-1", async () => {

@@ -912,8 +912,16 @@ export default function Home() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-900 mt-12 pt-8 text-center text-gray-600">
-            <p>&copy; 2026 QWork. Todos os direitos reservados.</p>
+          <div className="border-t border-gray-900 mt-12 pt-8 text-center">
+            <p className="text-gray-600 mb-6">&copy; 2026 QWork. Todos os direitos reservados.</p>
+            <blockquote className="max-w-3xl mx-auto border-t border-gray-900 pt-6">
+              <p className="text-gray-700 text-xs italic leading-relaxed">
+                &ldquo;Only be thou strong and very courageous, that thou mayest observe to do according to all the law,
+                which Moses my servant commanded thee: turn not from it to the right hand or to the left,
+                that thou mayest prosper whithersoever thou goest.&rdquo;
+              </p>
+              <cite className="text-gray-800 text-xs not-italic mt-2 block tracking-widest">— Josué 1:7</cite>
+            </blockquote>
           </div>
         </div>
       </footer>
