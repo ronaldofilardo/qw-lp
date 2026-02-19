@@ -17,7 +17,8 @@ const siteUrl = "https://qwork.com.br";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "QWork — Avaliação de Riscos Psicossociais para Empresas | COPSOQ III",
+    default:
+      "QWork — Avaliação de Riscos Psicossociais para Empresas | COPSOQ III",
     template: "%s | QWork",
   },
   description:

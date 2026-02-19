@@ -74,7 +74,7 @@ export default function Home() {
             </nav>
             <div className="hidden md:flex items-center gap-4">
               <a
-                href="https://qwork-psi.vercel.app/login"
+                href="/comecar"
                 className="bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] px-5 py-2 rounded-full font-medium transition-colors"
               >
                 Começar Agora
@@ -126,7 +126,7 @@ export default function Home() {
                 FAQ
               </a>
               <a
-                href="https://qwork-psi.vercel.app/login"
+                href="/comecar"
                 className="bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] px-5 py-2 rounded-full font-medium transition-colors w-full text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -275,7 +275,7 @@ export default function Home() {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
             >
               <a
-                href="https://qwork-psi.vercel.app/login"
+                href="/comecar"
                 className="bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] px-8 py-4 rounded-full font-semibold text-lg btn-organic shadow-organic hover:shadow-organic-hover flex items-center gap-2"
               >
                 <ShoppingCart className="w-5 h-5" />
@@ -595,9 +595,9 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full bg-[#1a1a1a] hover:bg-[#3d3d3d] text-white border border-gray-600 py-3 rounded-lg font-semibold btn-organic transition-colors">
+                <a href="/comecar" className="w-full bg-[#1a1a1a] hover:bg-[#3d3d3d] text-white border border-gray-600 py-3 rounded-lg font-semibold btn-organic transition-colors text-center block">
                   Criar Conta Grátis
-                </button>
+                </a>
               </div>
             </div>
           </motion.div>
@@ -771,10 +771,10 @@ export default function Home() {
                 .
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button className="bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] px-10 py-5 rounded-full font-bold text-lg btn-organic shadow-organic-hover flex items-center gap-3">
+                <a href="/comecar" className="bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] px-10 py-5 rounded-full font-bold text-lg btn-organic shadow-organic-hover flex items-center gap-3">
                   <ShoppingCart className="w-6 h-6" />
                   Criar Conta Grátis
-                </button>
+                </a>
                 <a
                   href="#modelo"
                   className="bg-transparent hover:bg-[#2d2d2d] text-[#9ccc65] border-2 border-[#9ccc65]/50 px-10 py-5 rounded-full font-bold text-lg btn-organic flex items-center gap-3 transition-colors"
@@ -915,7 +915,7 @@ export default function Home() {
           <div className="border-t border-gray-900 mt-12 pt-8 text-center">
             <p className="text-gray-600 mb-6">&copy; 2026 QWork. Todos os direitos reservados.</p>
             <blockquote className="max-w-3xl mx-auto border-t border-gray-900 pt-6">
-              <p className="text-gray-700 text-xs italic leading-relaxed">
+              <p className="text-gray-700 text-sm leading-relaxed">
                 &ldquo;Only be thou strong and very courageous, that thou mayest observe to do according to all the law,
                 which Moses my servant commanded thee: turn not from it to the right hand or to the left,
                 that thou mayest prosper whithersoever thou goest.&rdquo;
