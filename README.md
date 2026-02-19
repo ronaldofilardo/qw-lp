@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QWork Landing Page
 
-## Getting Started
+Landing page para o QWork, um sistema de avaliação psicossocial para gestão de risco ocupacional.
 
-First, run the development server:
+## Tech Stack
+
+- **Next.js 16** - Framework React para produção
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Estilização
+- **Framer Motion** - Animações
+- **Lucide React** - Ícones
+
+## Pré-requisitos
+
+- Node.js 18 ou superior
+- npm, yarn ou pnpm (recomendado)
+
+## Instalação
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Navegue até o diretório do projeto
+cd C:\apps\qwork-lp
+
+# Instale as dependências
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Desenvolvimento
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Inicie o servidor de desenvolvimento na porta 3001
+pnpm dev --port 3001
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A página estará disponível em `http://localhost:3001`.
 
-## Learn More
+## Build de Produção
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Crie o build de produção
+pnpm build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Inicie o servidor de produção
+pnpm start --port 3001
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Estrutura do Projeto
 
-## Deploy on Vercel
+```
+qwork-lp/
+├── app/
+│   ├── page.tsx          # Página principal da landing page
+│   └── layout.tsx        # Layout da aplicação
+├── lib/
+│   └── data.ts           # Dados de planos e funcionalidades
+├── public/               # Arquivos estáticos
+├── next.config.ts        # Configuração do Next.js
+├── postcss.config.mjs    # Configuração do PostCSS
+├── tailwind.config.ts    # Configuração do Tailwind CSS
+├── tsconfig.json         # Configuração do TypeScript
+└── package.json          # Dependências e scripts
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Funcionalidades
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Hero Section**: Apresentação do produto e chamada à ação
+2. **Features Section**: Descrição das funcionalidades do QWork
+3. **Plans Section**: Planos e preços
+4. **How It Works Section**: Passo a passo do funcionamento
+5. **FAQ Section**: Perguntas frequentes
+6. **CTA Section**: Chamada final à ação
+7. **Footer**: Informações de contato e links importantes
+
+## Design
+
+O design é baseado em:
+
+- Cor principal: Verde (#10b981)
+- Cores neutras: Cinzas e brancos
+- Tipografia: Inter (padrão do Next.js)
+- Layout responsive com grid e flexbox
+
+## Imagens
+
+As imagens são carregadas de:
+
+- Cloudinary (logos e imagens do produto)
+- Icons8 (ícones de funcionalidades)
+
+## SEO
+
+A página inclui:
+
+- Meta tags básicas (title, description)
+- Open Graph tags
+- Favicon
+- Schema markup
+
+## Licença
+
+MIT
