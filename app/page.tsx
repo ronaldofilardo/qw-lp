@@ -137,8 +137,90 @@ export default function Home() {
         )}
       </header>
 
+      {/* Intro Splash Section */}
+      <section
+        id="intro"
+        className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-[#1a1a1a]"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] via-[#222] to-[#1a1a1a]" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#9ccc65] rounded-full blur-3xl opacity-5 animate-float-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#9ccc65] rounded-full blur-3xl opacity-5 animate-float-medium" />
+
+        <div className="relative z-10 container mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="mb-8"
+          >
+            <Image
+              src="/logo-qwork.png"
+              alt="QWork Logo"
+              width={200}
+              height={68}
+              className="object-contain mx-auto mb-10 opacity-90"
+              priority
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="inline-flex items-center gap-2 bg-[#9ccc65]/10 border border-[#9ccc65]/30 rounded-full px-5 py-2 mb-10">
+              <span className="w-2 h-2 rounded-full bg-[#9ccc65] animate-pulse" />
+              <span className="text-[#9ccc65] text-sm font-semibold tracking-widest uppercase">
+                Saúde Mental no Trabalho
+              </span>
+            </div>
+
+            <h2 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
+              Avaliando riscos
+              <br />
+              <span className="text-[#9ccc65]">psicossociais</span>
+              <br />
+              <span className="text-gray-300 text-4xl md:text-5xl font-normal">
+                da sua empresa
+              </span>
+            </h2>
+
+            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mt-8 leading-relaxed">
+              Uma plataforma completa baseada no{" "}
+              <span className="text-white font-medium">COPSOQ III</span> para
+              identificar, avaliar e agir sobre os fatores de risco psicossocial
+              — com segurança, conformidade e simplicidade.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer group"
+          onClick={() =>
+            document
+              .getElementById("hero")
+              ?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          <span className="text-gray-500 text-xs tracking-widest uppercase group-hover:text-[#9ccc65] transition-colors">
+            Descobrir
+          </span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-5 h-8 border-2 border-gray-600 group-hover:border-[#9ccc65] rounded-full flex items-start justify-center pt-1 transition-colors"
+          >
+            <div className="w-1 h-2 bg-gray-500 group-hover:bg-[#9ccc65] rounded-full transition-colors" />
+          </motion.div>
+        </motion.div>
+      </section>
+
       {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#1a1a1a] relative overflow-hidden texture-paper">
+      <section id="hero" className="pt-32 pb-20 bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#1a1a1a] relative overflow-hidden texture-paper">
         <div className="absolute top-20 right-10 w-32 h-32 bg-[#9ccc65] rounded-full blur-3xl opacity-10 animate-float-slow"></div>
         <div className="absolute bottom-32 left-10 w-40 h-40 bg-[#9ccc65] rounded-full blur-3xl opacity-10 animate-float-medium"></div>
         <div className="container mx-auto px-6 relative z-10">
