@@ -22,7 +22,7 @@ const LP_URL = "https://qwork-psi.vercel.app";
 const APP_LOGIN_URL = "https://qwork-psi.vercel.app/login";
 
 const WHATSAPP_MESSAGE = encodeURIComponent(
-  `Olá! Gostaria de sugerir a QWork para avaliações psicossociais da nossa equipe. É uma plataforma baseada no COPSOQ III para identificação e mapeamento de riscos psicossociais no trabalho. Saiba mais: ${LP_URL}`
+  `Olá! Gostaria de sugerir a QWork para avaliações psicossociais da nossa equipe. É uma plataforma baseada no COPSOQ III para identificação e mapeamento de riscos psicossociais no trabalho. Saiba mais: ${LP_URL}`,
 );
 
 type Path = "funcionario" | "empresa" | "individual" | null;
@@ -42,7 +42,9 @@ export default function ComecarPage() {
     empresa: "",
     emailRH: "",
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [copied, setCopied] = useState(false);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +81,10 @@ export default function ComecarPage() {
       {/* Header */}
       <header className="border-b border-gray-800 bg-[#1a1a1a]/95 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-[#9ccc65] transition-colors text-sm">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-gray-400 hover:text-[#9ccc65] transition-colors text-sm"
+          >
             <ArrowLeft className="w-4 h-4" />
             Voltar
           </Link>
@@ -140,7 +145,8 @@ export default function ComecarPage() {
                     Sou Funcionário ou Gestor
                   </h2>
                   <p className="text-gray-400 text-sm leading-relaxed">
-                    Minha empresa já está cadastrada e quero acessar minha avaliação ou painel.
+                    Minha empresa já está cadastrada e quero acessar minha
+                    avaliação ou painel.
                   </p>
                 </div>
               </div>
@@ -166,7 +172,8 @@ export default function ComecarPage() {
                     Represento uma Empresa
                   </h2>
                   <p className="text-gray-400 text-sm leading-relaxed">
-                    Quero cadastrar minha empresa ou clínica e iniciar avaliações psicossociais.
+                    Quero cadastrar minha empresa ou clínica e iniciar
+                    avaliações psicossociais.
                   </p>
                 </div>
               </div>
@@ -192,7 +199,8 @@ export default function ComecarPage() {
                     Avaliação Individual
                   </h2>
                   <p className="text-gray-400 text-sm leading-relaxed">
-                    Sou profissional interessado em fazer minha própria avaliação psicossocial.
+                    Sou profissional interessado em fazer minha própria
+                    avaliação psicossocial.
                   </p>
                 </div>
               </div>
@@ -215,10 +223,14 @@ export default function ComecarPage() {
                   Acesse com suas credenciais
                 </h3>
                 <p className="text-gray-400 text-sm leading-relaxed mb-5">
-                  Se você <strong className="text-gray-200">recebeu um convite</strong> ou foi cadastrado pela sua empresa, 
-                  basta acessar com seu{" "}
-                  <strong className="text-gray-200">CPF e data de nascimento</strong> (ou senha, se tiver criado uma).
-                  Gestores e RHs acessam o painel completo com as mesmas credenciais.
+                  Se você{" "}
+                  <strong className="text-gray-200">recebeu um convite</strong>{" "}
+                  ou foi cadastrado pela sua empresa, basta acessar com seu{" "}
+                  <strong className="text-gray-200">
+                    CPF e data de nascimento
+                  </strong>{" "}
+                  (ou senha, se tiver criado uma). Gestores e RHs acessam o
+                  painel completo com as mesmas credenciais.
                 </p>
                 <a
                   href={APP_LOGIN_URL}
@@ -246,12 +258,19 @@ export default function ComecarPage() {
                   Cadastre sua empresa em minutos
                 </h3>
                 <p className="text-gray-400 text-sm leading-relaxed mb-2">
-                  O cadastro é <strong className="text-gray-200">gratuito e imediato</strong>. Na tela de acesso,
-                  clique em <strong className="text-[#9ccc65]">Cadastrar Empresa</strong> — o botão fica logo abaixo do formulário de login.
+                  O cadastro é{" "}
+                  <strong className="text-gray-200">gratuito e imediato</strong>
+                  . Na tela de acesso, clique em{" "}
+                  <strong className="text-[#9ccc65]">Cadastrar Empresa</strong>{" "}
+                  — o botão fica logo abaixo do formulário de login.
                 </p>
                 <p className="text-gray-400 text-sm leading-relaxed mb-5">
-                  Após o cadastro você poderá importar funcionários, liberar avaliações e, quando precisar, emitir o{" "}
-                  <strong className="text-gray-200">Laudo de Identificação e Mapeamento de Riscos Psicossociais</strong> com validade jurídica (SHA256, NR-1).
+                  Após o cadastro você poderá importar funcionários, liberar
+                  avaliações e, quando precisar, emitir o{" "}
+                  <strong className="text-gray-200">
+                    Laudo de Identificação e Mapeamento de Riscos Psicossociais
+                  </strong>{" "}
+                  com validade jurídica (SHA256, NR-1).
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
@@ -293,12 +312,19 @@ export default function ComecarPage() {
                     </p>
                     <p className="text-gray-400 text-sm leading-relaxed">
                       No momento, a QWork atende{" "}
-                      <strong className="text-gray-200">empresas, clínicas de medicina ocupacional e seus respectivos funcionários</strong>.
-                      A modalidade de avaliação individual, sem vínculo empresarial, está em nosso roadmap.
+                      <strong className="text-gray-200">
+                        empresas, clínicas de medicina ocupacional e seus
+                        respectivos funcionários
+                      </strong>
+                      . A modalidade de avaliação individual, sem vínculo
+                      empresarial, está em nosso roadmap.
                     </p>
                     <p className="text-gray-400 text-sm leading-relaxed mt-2">
                       Enquanto isso, a melhor forma de ter acesso é{" "}
-                      <strong className="text-[#9ccc65]">sugerir a QWork para o seu RH ou gestor</strong>.
+                      <strong className="text-[#9ccc65]">
+                        sugerir a QWork para o seu RH ou gestor
+                      </strong>
+                      .
                     </p>
                   </div>
                 </div>
@@ -310,21 +336,25 @@ export default function ComecarPage() {
                     Enviar sugestão para o seu RH
                   </h3>
                   <p className="text-gray-400 text-xs mb-4">
-                    Preencha abaixo e enviaremos uma indicação em seu nome para o RH da sua empresa.
+                    Preencha abaixo e enviaremos uma indicação em seu nome para
+                    o RH da sua empresa.
                   </p>
 
                   {status === "success" ? (
                     <div className="flex items-center gap-3 bg-[#9ccc65]/10 border border-[#9ccc65]/40 rounded-xl p-4 text-[#9ccc65]">
                       <Check className="w-5 h-5 flex-shrink-0" />
                       <p className="text-sm font-semibold">
-                        Sugestão enviada! Obrigado por indicar a QWork para sua empresa.
+                        Sugestão enviada! Obrigado por indicar a QWork para sua
+                        empresa.
                       </p>
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-3">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-xs text-gray-400 mb-1">Seu nome *</label>
+                          <label className="block text-xs text-gray-400 mb-1">
+                            Seu nome *
+                          </label>
                           <input
                             name="nome"
                             value={form.nome}
@@ -335,7 +365,9 @@ export default function ComecarPage() {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs text-gray-400 mb-1">Seu e-mail *</label>
+                          <label className="block text-xs text-gray-400 mb-1">
+                            Seu e-mail *
+                          </label>
                           <input
                             name="emailPessoal"
                             type="email"
@@ -347,7 +379,9 @@ export default function ComecarPage() {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs text-gray-400 mb-1">Sua empresa *</label>
+                          <label className="block text-xs text-gray-400 mb-1">
+                            Sua empresa *
+                          </label>
                           <input
                             name="empresa"
                             value={form.empresa}
@@ -358,7 +392,9 @@ export default function ComecarPage() {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs text-gray-400 mb-1">E-mail do RH (se souber)</label>
+                          <label className="block text-xs text-gray-400 mb-1">
+                            E-mail do RH (se souber)
+                          </label>
                           <input
                             name="emailRH"
                             type="email"
@@ -428,7 +464,8 @@ export default function ComecarPage() {
 
       {/* Footer mínimo */}
       <footer className="border-t border-gray-800 py-6 text-center text-gray-600 text-xs">
-        © {new Date().getFullYear()} QWork — Avaliação Psicossocial baseada no COPSOQ III
+        © {new Date().getFullYear()} QWork — Avaliação Psicossocial baseada no
+        COPSOQ III
       </footer>
     </div>
   );

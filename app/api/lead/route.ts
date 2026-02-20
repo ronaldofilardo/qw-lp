@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     if (!nome || !emailPessoal || !empresa) {
       return NextResponse.json(
         { error: "Campos obrigatórios ausentes." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

@@ -116,7 +116,7 @@ describe("POST /api/lead", () => {
         empresa: "Empresa Teste",
         emailRH: "rh@teste.com",
         destinatario: "ronaldofilardo@gmail.com",
-      })
+      }),
     );
   });
 

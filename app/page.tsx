@@ -148,22 +148,6 @@ export default function Home() {
 
         <div className="relative z-10 container mx-auto px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8"
-          >
-            <Image
-              src="/logo-qwork.png"
-              alt="QWork Logo"
-              width={200}
-              height={68}
-              className="object-contain mx-auto mb-10 opacity-90"
-              priority
-            />
-          </motion.div>
-
-          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -220,7 +204,10 @@ export default function Home() {
       </section>
 
       {/* Hero Section */}
-      <section id="hero" className="pt-32 pb-20 bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#1a1a1a] relative overflow-hidden texture-paper">
+      <section
+        id="hero"
+        className="pt-32 pb-20 bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#1a1a1a] relative overflow-hidden texture-paper"
+      >
         <div className="absolute top-20 right-10 w-32 h-32 bg-[#9ccc65] rounded-full blur-3xl opacity-10 animate-float-slow"></div>
         <div className="absolute bottom-32 left-10 w-40 h-40 bg-[#9ccc65] rounded-full blur-3xl opacity-10 animate-float-medium"></div>
         <div className="container mx-auto px-6 relative z-10">
@@ -595,7 +582,10 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <a href="/comecar" className="w-full bg-[#1a1a1a] hover:bg-[#3d3d3d] text-white border border-gray-600 py-3 rounded-lg font-semibold btn-organic transition-colors text-center block">
+                <a
+                  href="/comecar"
+                  className="w-full bg-[#1a1a1a] hover:bg-[#3d3d3d] text-white border border-gray-600 py-3 rounded-lg font-semibold btn-organic transition-colors text-center block"
+                >
                   Criar Conta Grátis
                 </a>
               </div>
@@ -771,7 +761,10 @@ export default function Home() {
                 .
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="/comecar" className="bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] px-10 py-5 rounded-full font-bold text-lg btn-organic shadow-organic-hover flex items-center gap-3">
+                <a
+                  href="/comecar"
+                  className="bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] px-10 py-5 rounded-full font-bold text-lg btn-organic shadow-organic-hover flex items-center gap-3"
+                >
                   <ShoppingCart className="w-6 h-6" />
                   Criar Conta Grátis
                 </a>
@@ -913,14 +906,19 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-900 mt-12 pt-8 text-center">
-            <p className="text-gray-600 mb-6">&copy; 2026 QWork. Todos os direitos reservados.</p>
+            <p className="text-gray-600 mb-6">
+              &copy; 2026 QWork. Todos os direitos reservados.
+            </p>
             <blockquote className="max-w-3xl mx-auto border-t border-gray-900 pt-6">
               <p className="text-gray-700 text-sm leading-relaxed">
-                &ldquo;Only be thou strong and very courageous, that thou mayest observe to do according to all the law,
-                which Moses my servant commanded thee: turn not from it to the right hand or to the left,
-                that thou mayest prosper whithersoever thou goest.&rdquo;
+                &ldquo;Only be thou strong and very courageous, that thou mayest
+                observe to do according to all the law, which Moses my servant
+                commanded thee: turn not from it to the right hand or to the
+                left, that thou mayest prosper whithersoever thou goest.&rdquo;
               </p>
-              <cite className="text-gray-800 text-xs not-italic mt-2 block tracking-widest">— Josué 1:7</cite>
+              <cite className="text-gray-800 text-xs not-italic mt-2 block tracking-widest">
+                — Josué 1:7
+              </cite>
             </blockquote>
           </div>
         </div>

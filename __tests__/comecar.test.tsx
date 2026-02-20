@@ -6,10 +6,37 @@ import ComecarPage from "@/app/comecar/page";
 
 jest.mock("framer-motion", () => {
   const FRAMER_PROPS = new Set([
-    "initial", "animate", "exit", "transition", "whileHover", "whileTap",
-    "whileInView", "variants", "layout", "layoutId", "drag", "dragConstraints",
+    "initial",
+    "animate",
+    "exit",
+    "transition",
+    "whileHover",
+    "whileTap",
+    "whileInView",
+    "variants",
+    "layout",
+    "layoutId",
+    "drag",
+    "dragConstraints",
   ]);
-  const HTML_TAGS = new Set(["div","span","section","header","footer","main","p","h1","h2","h3","ul","li","form","button","a","img"]);
+  const HTML_TAGS = new Set([
+    "div",
+    "span",
+    "section",
+    "header",
+    "footer",
+    "main",
+    "p",
+    "h1",
+    "h2",
+    "h3",
+    "ul",
+    "li",
+    "form",
+    "button",
+    "a",
+    "img",
+  ]);
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const React = require("react");
   return {
@@ -21,11 +48,15 @@ jest.mock("framer-motion", () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ({ children, ...props }: any) => {
             const safeProps = Object.fromEntries(
-              Object.entries(props).filter(([k]) => !FRAMER_PROPS.has(k))
+              Object.entries(props).filter(([k]) => !FRAMER_PROPS.has(k)),
             );
-            return React.createElement(HTML_TAGS.has(key) ? key : "div", safeProps, children);
+            return React.createElement(
+              HTML_TAGS.has(key) ? key : "div",
+              safeProps,
+              children,
+            );
           },
-      }
+      },
     ),
     AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
   };
@@ -33,16 +64,29 @@ jest.mock("framer-motion", () => {
 
 jest.mock("next/image", () => ({
   __esModule: true,
-  default: ({ alt, priority: _priority, ...props }: { alt: string; priority?: boolean; [key: string]: unknown }) =>
+  default: ({
+    alt,
+    priority: _priority,
+    ...props
+  }: {
+    alt: string;
+    priority?: boolean;
+    [key: string]: unknown;
+  }) => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img alt={alt} {...(props as React.ImgHTMLAttributes<HTMLImageElement>)} />,
+    <img alt={alt} {...(props as React.ImgHTMLAttributes<HTMLImageElement>)} />
+  ),
 }));
 
 jest.mock("next/link", () => ({
   __esModule: true,
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 // ── Testes: renderização inicial ───────────────────────────────────────────
@@ -51,7 +95,9 @@ describe("Página /comecar — renderização inicial", () => {
   beforeEach(() => render(<ComecarPage />));
 
   it("exibe o título principal", () => {
-    expect(screen.getByText(/Como você deseja continuar\?/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Como você deseja continuar\?/i),
+    ).toBeInTheDocument();
   });
 
   it("exibe os três perfis", () => {
@@ -106,7 +152,10 @@ describe("Painel — Represento uma Empresa", () => {
   it("exibe botão que aponta para o login do sistema", () => {
     const links = screen.getAllByRole("link", { name: /Cadastrar Empresa/i });
     expect(links.length).toBeGreaterThanOrEqual(1);
-    expect(links[0]).toHaveAttribute("href", "https://qwork-psi.vercel.app/login");
+    expect(links[0]).toHaveAttribute(
+      "href",
+      "https://qwork-psi.vercel.app/login",
+    );
   });
 
   it("exibe link para entender o modelo", () => {
@@ -124,11 +173,15 @@ describe("Painel — Avaliação Individual", () => {
   });
 
   it("exibe aviso de que modalidade individual está em roadmap", () => {
-    expect(screen.getByText(/Avaliação individual em breve/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Avaliação individual em breve/i),
+    ).toBeInTheDocument();
   });
 
   it("exibe sugestão de indicar o RH", () => {
-    expect(screen.getByText(/sugerir a QWork para o seu RH/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/sugerir a QWork para o seu RH/i),
+    ).toBeInTheDocument();
   });
 
   it("exibe os quatro campos do formulário de sugestão", () => {
@@ -139,13 +192,17 @@ describe("Painel — Avaliação Individual", () => {
   });
 
   it("exibe botão de compartilhar no WhatsApp com URL correta", () => {
-    const link = screen.getByRole("link", { name: /Compartilhar no WhatsApp/i });
+    const link = screen.getByRole("link", {
+      name: /Compartilhar no WhatsApp/i,
+    });
     expect(link).toHaveAttribute("href", expect.stringContaining("wa.me"));
     expect(link).toHaveAttribute("href", expect.stringContaining("COPSOQ"));
   });
 
   it("exibe botão de copiar link", () => {
-    expect(screen.getByRole("button", { name: /Copiar Link/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /Copiar Link/i }),
+    ).toBeInTheDocument();
   });
 });
 
@@ -170,10 +227,14 @@ describe("Formulário de sugestão para o RH", () => {
       target: { value: "Empresa ABC" },
     });
 
-    fireEvent.submit(screen.getByRole("button", { name: /Enviar Sugestão/i }).closest("form")!);
+    fireEvent.submit(
+      screen.getByRole("button", { name: /Enviar Sugestão/i }).closest("form")!,
+    );
 
     await waitFor(() => {
-      expect(screen.getByText(/Ocorreu um erro ao enviar/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Ocorreu um erro ao enviar/i),
+      ).toBeInTheDocument();
     });
   });
 
@@ -190,7 +251,9 @@ describe("Formulário de sugestão para o RH", () => {
       target: { value: "Empresa XYZ" },
     });
 
-    fireEvent.submit(screen.getByRole("button", { name: /Enviar Sugestão/i }).closest("form")!);
+    fireEvent.submit(
+      screen.getByRole("button", { name: /Enviar Sugestão/i }).closest("form")!,
+    );
 
     await waitFor(() => {
       expect(screen.getByText(/Sugestão enviada/i)).toBeInTheDocument();
@@ -214,7 +277,9 @@ describe("Formulário de sugestão para o RH", () => {
       target: { value: "rh@teste.com" },
     });
 
-    fireEvent.submit(screen.getByRole("button", { name: /Enviar Sugestão/i }).closest("form")!);
+    fireEvent.submit(
+      screen.getByRole("button", { name: /Enviar Sugestão/i }).closest("form")!,
+    );
 
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledWith(
@@ -227,7 +292,7 @@ describe("Formulário de sugestão para o RH", () => {
             empresa: "Empresa Teste",
             emailRH: "rh@teste.com",
           }),
-        })
+        }),
       );
     });
   });
