@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 
 import { faqItems, features } from "@/lib/data";
+import RepresentanteForm from "@/components/RepresentanteForm";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -64,6 +65,12 @@ export default function Home() {
                 className="text-gray-300 hover:text-[#9ccc65] transition-colors"
               >
                 Como Funciona
+              </a>
+              <a
+                href="#representantes"
+                className="text-gray-300 hover:text-[#9ccc65] transition-colors"
+              >
+                Representantes
               </a>
               <a
                 href="#faq"
@@ -117,6 +124,13 @@ export default function Home() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Como Funciona
+              </a>
+              <a
+                href="#representantes"
+                className="text-gray-300 hover:text-[#9ccc65] transition-colors py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Representantes
               </a>
               <a
                 href="#faq"
@@ -671,6 +685,98 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Cadastro Representantes Section */}
+      <section
+        id="representantes"
+        className="py-20 bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d]/30 to-[#1a1a1a] relative"
+      >
+        <div className="absolute top-20 right-1/4 w-32 h-32 bg-[#9ccc65] rounded-full blur-3xl opacity-10 animate-float-slow" />
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center gap-2 bg-[#9ccc65]/10 border border-[#9ccc65]/30 rounded-full px-5 py-2 mb-6">
+              <span className="text-[#9ccc65] text-sm font-semibold tracking-widest uppercase">
+                Oportunidade
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+              Quer ser Representante?
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Cadastre-se agora e comece a trabalhar com a gente.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
+            {/* Benefícios */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-6"
+            >
+              <h3 className="text-2xl font-bold text-white mb-4">
+                Por que ser representante QWork?
+              </h3>
+              <p className="text-gray-400 leading-relaxed mb-8">
+                Junte-se à nossa rede de representantes e ajude empresas a
+                cuidarem da saúde mental dos seus colaboradores — com uma
+                plataforma que valoriza quem está na linha de frente.
+              </p>
+              <ul className="space-y-5">
+                {[
+                  {
+                    emoji: "💰",
+                    title: "Comissão automática por laudo emitido",
+                    desc: "Receba por cada laudo gerado através da sua indicação.",
+                  },
+                  {
+                    emoji: "📊",
+                    title: "Dashboard com histórico completo",
+                    desc: "Acompanhe suas vendas, comissões e clientes em tempo real.",
+                  },
+                  {
+                    emoji: "🤝",
+                    title: "Suporte direto da QWork",
+                    desc: "Treinamento, materiais e apoio comercial dedicado.",
+                  },
+                  {
+                    emoji: "⚡",
+                    title: "Recebimento via PIX",
+                    desc: "Comissões pagas de forma rápida e sem burocracia.",
+                  },
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-4">
+                    <span className="text-2xl flex-shrink-0 mt-1">
+                      {item.emoji}
+                    </span>
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">
+                        {item.title}
+                      </h4>
+                      <p className="text-gray-400 text-sm">{item.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Formulário */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <RepresentanteForm />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-[#2d2d2d]">
         <div className="container mx-auto px-6">
@@ -854,6 +960,14 @@ export default function Home() {
                     className="text-gray-500 hover:text-[#9ccc65] transition-colors"
                   >
                     Como Funciona
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#representantes"
+                    className="text-gray-500 hover:text-[#9ccc65] transition-colors"
+                  >
+                    Representantes
                   </a>
                 </li>
                 <li>

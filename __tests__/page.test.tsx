@@ -2,21 +2,77 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 
+// Framer-motion mock props to strip
+const FRAMER_PROPS = new Set([
+  "initial",
+  "animate",
+  "exit",
+  "transition",
+  "whileHover",
+  "whileTap",
+  "whileInView",
+  "variants",
+  "layout",
+  "layoutId",
+  "drag",
+  "dragConstraints",
+]);
+const HTML_TAGS = new Set([
+  "div",
+  "span",
+  "section",
+  "header",
+  "footer",
+  "main",
+  "p",
+  "h1",
+  "h2",
+  "h3",
+  "ul",
+  "li",
+  "form",
+  "button",
+  "a",
+  "img",
+  "input",
+  "label",
+]);
+
 // Mock framer-motion to simplify testing
 jest.mock("framer-motion", () => ({
-  motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-  },
+  motion: new Proxy(
+    {},
+    {
+      get:
+        (_target: unknown, key: string) =>
+        ({ children, ...props }: any) => {
+          const safeProps = Object.fromEntries(
+            Object.entries(props).filter(([k]) => !FRAMER_PROPS.has(k)),
+          );
+          return React.createElement(
+            HTML_TAGS.has(key) ? key : "div",
+            safeProps,
+            children,
+          );
+        },
+    },
+  ),
   AnimatePresence: ({ children }: any) => <>{children}</>,
 }));
 
 // Mock next/image
 jest.mock("next/image", () => ({
   __esModule: true,
-  default: (props: any) => {
+  default: ({ priority: _priority, ...props }: any) => {
     // eslint-disable-next-line jsx-a11y/alt-text
     return <img {...props} />;
   },
+}));
+
+// Mock RepresentanteForm (uses react-hook-form / zod internals)
+jest.mock("../components/RepresentanteForm", () => ({
+  __esModule: true,
+  default: () => <div data-testid="representante-form">Form mock</div>,
 }));
 
 describe("Home Page", () => {
@@ -35,7 +91,9 @@ describe("Home Page", () => {
     const { container } = render(<Home />);
 
     // Find all elements with "Saúde Mental no Trabalho" text
-    const saudeMentalElements = screen.queryAllByText(/Saúde Mental no Trabalho/i);
+    const saudeMentalElements = screen.queryAllByText(
+      /Saúde Mental no Trabalho/i,
+    );
     expect(saudeMentalElements.length).toBeGreaterThan(0);
 
     // Find all logo images by alt text
