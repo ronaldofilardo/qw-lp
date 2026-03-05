@@ -132,10 +132,34 @@ export async function POST(req: NextRequest) {
         },
       );
     } else {
+      // Mapeia campos camelCase da LP para snake_case esperado pelo QWork
       const forwardData = new FormData();
-      for (const [key, value] of formData.entries()) {
-        forwardData.append(key, value as string | Blob);
+
+      // Campos comuns
+      forwardData.append("tipo_pessoa", (raw.tipoPessoa ?? "").toLowerCase());
+      forwardData.append("nome", raw.nome ?? "");
+      forwardData.append("email", raw.email ?? "");
+      forwardData.append("telefone", raw.telefone ?? "");
+      forwardData.append("website", ""); // honeypot vazio
+
+      // Campos PF
+      if (raw.tipoPessoa === "PF") {
+        forwardData.append("cpf", raw.cpf ?? "");
+        const docCpf = formData.get("documentoCpf") as File | null;
+        if (docCpf && docCpf.size > 0) forwardData.append("documento_cpf", docCpf);
       }
+
+      // Campos PJ
+      if (raw.tipoPessoa === "PJ") {
+        forwardData.append("cnpj", raw.cnpj ?? "");
+        forwardData.append("razao_social", raw.razaoSocial ?? "");
+        forwardData.append("cpf_responsavel", raw.cpfResponsavel ?? "");
+        const docCnpj = formData.get("documentoCnpj") as File | null;
+        const docCpfResp = formData.get("documentoCpfResponsavel") as File | null;
+        if (docCnpj && docCnpj.size > 0) forwardData.append("documento_cnpj", docCnpj);
+        if (docCpfResp && docCpfResp.size > 0) forwardData.append("documento_cpf_responsavel", docCpfResp);
+      }
+
       forwardData.append("token", token);
 
       try {
@@ -145,13 +169,51 @@ export async function POST(req: NextRequest) {
         );
 
         if (!qworkRes.ok) {
-          const errBody = await qworkRes.text();
+          let errBody = await qworkRes.text();
           console.error("[REPRESENTANTE] QWork API error:", errBody);
+
+          // Tentar parsear como JSON e extrair mensagem específica
+          let qworkError: { message?: string; error?: string; details?: Record<string, string> } = {};
+          try {
+            qworkError = JSON.parse(errBody);
+          } catch {
+            // Se não for JSON, continua com errBody como texto
+          }
+
+          const errorMsg = qworkError.message || qworkError.error || errBody.toLowerCase();
+
+          // Mapear erros de duplicação para mensagens amigáveis
+          let userMessage = "Erro ao processar cadastro. Tente novamente.";
+
+          if (
+            errorMsg.includes("cpf") &&
+            (errorMsg.includes("já existe") ||
+              errorMsg.includes("duplicat") ||
+              errorMsg.includes("duplicate") ||
+              errorMsg.includes("unique"))
+          ) {
+            userMessage = "Este CPF já foi registrado. Verifique seus dados.";
+          } else if (
+            errorMsg.includes("cnpj") &&
+            (errorMsg.includes("já existe") ||
+              errorMsg.includes("duplicat") ||
+              errorMsg.includes("duplicate") ||
+              errorMsg.includes("unique"))
+          ) {
+            userMessage = "Este CNPJ já foi registrado. Verifique seus dados.";
+          } else if (
+            errorMsg.includes("email") &&
+            (errorMsg.includes("já existe") ||
+              errorMsg.includes("duplicat") ||
+              errorMsg.includes("duplicate") ||
+              errorMsg.includes("unique"))
+          ) {
+            userMessage = "Este e-mail já foi registrado. Use outro ou faça login.";
+          }
+
           return NextResponse.json(
-            {
-              errors: { form: "Erro ao processar cadastro. Tente novamente." },
-            },
-            { status: 502 },
+            { errors: { form: userMessage } },
+            { status: 400 },
           );
         }
       } catch (fetchErr) {
