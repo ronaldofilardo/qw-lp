@@ -723,26 +723,32 @@ export default function Home() {
                 Por que ser representante QWork?
               </h3>
               <p className="text-gray-400 leading-relaxed mb-8">
-                Junte-se à nossa rede de representantes e ajude empresas a
-                cuidarem da saúde mental dos seus colaboradores — com uma
-                plataforma que valoriza quem está na linha de frente.
+                Ganhe comissões reais vendendo saúde mental. Nossos
+                representantes ganham a partir de 20% do valor negociado —
+                sem limite de lucro. Ajude empresas enquanto constrói sua
+                renda.
               </p>
               <ul className="space-y-5">
                 {[
                   {
                     emoji: "💰",
                     title: "Comissão automática por laudo emitido",
-                    desc: "Receba por cada laudo gerado através da sua indicação.",
+                    desc: "Ganhe comissões reais vendendo saúde mental com comissão a partir de 20%. Quanto mais fechar, mais ganha — sem limite de lucro.",
+                  },
+                  {
+                    emoji: "💸",
+                    title: "Comissão a partir de 20%",
+                    desc: "Ganhe progressivamente mais a cada cliente conquistado. Sua renda cresce com seu sucesso.",
                   },
                   {
                     emoji: "📊",
                     title: "Dashboard com histórico completo",
-                    desc: "Acompanhe suas vendas, comissões e clientes em tempo real.",
+                    desc: "Visualize cada venda e cada centavo ganho em tempo real. Transparência total.",
                   },
                   {
                     emoji: "🤝",
                     title: "Suporte direto da QWork",
-                    desc: "Treinamento, materiais e apoio comercial dedicado.",
+                    desc: "Materiais de vendas prontos e suporte comercial dedicado para maximizar suas vendas.",
                   },
                   {
                     emoji: "⚡",

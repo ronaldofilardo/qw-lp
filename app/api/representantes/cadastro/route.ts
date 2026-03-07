@@ -146,7 +146,8 @@ export async function POST(req: NextRequest) {
       if (raw.tipoPessoa === "PF") {
         forwardData.append("cpf", raw.cpf ?? "");
         const docCpf = formData.get("documentoCpf") as File | null;
-        if (docCpf && docCpf.size > 0) forwardData.append("documento_cpf", docCpf);
+        if (docCpf && docCpf.size > 0)
+          forwardData.append("documento_cpf", docCpf);
       }
 
       // Campos PJ
@@ -155,9 +156,13 @@ export async function POST(req: NextRequest) {
         forwardData.append("razao_social", raw.razaoSocial ?? "");
         forwardData.append("cpf_responsavel", raw.cpfResponsavel ?? "");
         const docCnpj = formData.get("documentoCnpj") as File | null;
-        const docCpfResp = formData.get("documentoCpfResponsavel") as File | null;
-        if (docCnpj && docCnpj.size > 0) forwardData.append("documento_cnpj", docCnpj);
-        if (docCpfResp && docCpfResp.size > 0) forwardData.append("documento_cpf_responsavel", docCpfResp);
+        const docCpfResp = formData.get(
+          "documentoCpfResponsavel",
+        ) as File | null;
+        if (docCnpj && docCnpj.size > 0)
+          forwardData.append("documento_cnpj", docCnpj);
+        if (docCpfResp && docCpfResp.size > 0)
+          forwardData.append("documento_cpf_responsavel", docCpfResp);
       }
 
       forwardData.append("token", token);
@@ -173,14 +178,19 @@ export async function POST(req: NextRequest) {
           console.error("[REPRESENTANTE] QWork API error:", errBody);
 
           // Tentar parsear como JSON e extrair mensagem específica
-          let qworkError: { message?: string; error?: string; details?: Record<string, string> } = {};
+          let qworkError: {
+            message?: string;
+            error?: string;
+            details?: Record<string, string>;
+          } = {};
           try {
             qworkError = JSON.parse(errBody);
           } catch {
             // Se não for JSON, continua com errBody como texto
           }
 
-          const errorMsg = qworkError.message || qworkError.error || errBody.toLowerCase();
+          const errorMsg =
+            qworkError.message || qworkError.error || errBody.toLowerCase();
 
           // Mapear erros de duplicação para mensagens amigáveis
           let userMessage = "Erro ao processar cadastro. Tente novamente.";
@@ -208,7 +218,8 @@ export async function POST(req: NextRequest) {
               errorMsg.includes("duplicate") ||
               errorMsg.includes("unique"))
           ) {
-            userMessage = "Este e-mail já foi registrado. Use outro ou faça login.";
+            userMessage =
+              "Este e-mail já foi registrado. Use outro ou faça login.";
           }
 
           return NextResponse.json(

@@ -103,4 +103,55 @@ describe("Home Page", () => {
     // The logo above "Saúde Mental no Trabalho" in hero section has been removed
     expect(logoImages.length).toBe(2);
   });
+
+  describe("Seção Representantes — Por que ser representante QWork?", () => {
+    it("deve exibir a introdução com comissão a partir de 20%", () => {
+      render(<Home />);
+      expect(
+        screen.getByText(/a partir de 20% do valor negociado/i),
+      ).toBeInTheDocument();
+    });
+
+    it("deve exibir o item de comissão automática com texto atualizado", () => {
+      render(<Home />);
+      // Texto único da descrição do item 1
+      expect(
+        screen.getByText(/quanto mais fechar, mais ganha — sem limite de lucro/i),
+      ).toBeInTheDocument();
+    });
+
+    it("deve exibir o novo item 'Comissão a partir de 20%'", () => {
+      render(<Home />);
+      // Título do item 2 aparece como heading h4
+      const headings = screen.getAllByText(/Comiss[aã]o a partir de 20%/i);
+      expect(headings.length).toBeGreaterThanOrEqual(1);
+      expect(
+        screen.getByText(/sua renda cresce com seu sucesso/i),
+      ).toBeInTheDocument();
+    });
+
+    it("deve exibir o dashboard com texto atualizado", () => {
+      render(<Home />);
+      expect(
+        screen.getByText(/visualize cada venda e cada centavo ganho em tempo real/i),
+      ).toBeInTheDocument();
+    });
+
+    it("deve exibir o suporte sem mencionar treinamento", () => {
+      render(<Home />);
+      expect(
+        screen.getByText(/materiais de vendas prontos e suporte comercial dedicado/i),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByText(/treinamento/i),
+      ).not.toBeInTheDocument();
+    });
+
+    it("deve exibir o item de recebimento via PIX", () => {
+      render(<Home />);
+      expect(
+        screen.getByText(/comiss[oõ]es pagas de forma r[aá]pida e sem burocracia/i),
+      ).toBeInTheDocument();
+    });
+  });
 });
