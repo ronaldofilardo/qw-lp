@@ -696,7 +696,7 @@ export default function Home() {
             >
               <div className="inline-flex items-center gap-2 bg-[#9ccc65]/15 border border-[#9ccc65]/40 rounded-full px-5 py-2 mb-6">
                 <span className="text-[#9ccc65] text-sm font-semibold tracking-widest uppercase">
-                  Investir é Fácil
+                  Adotar e começar é Fácil
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">

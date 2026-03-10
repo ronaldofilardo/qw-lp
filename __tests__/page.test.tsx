@@ -187,7 +187,7 @@ describe("Home Page", () => {
     });
   });
 
-  describe("Seção Investir é Fácil — Pricing", () => {
+  describe("Seção Adotar e começar é Fácil — Pricing", () => {
     it("deve exibir 'Sem Cobrança de Setup' com descrição completa", () => {
       render(<Home />);
       expect(
@@ -215,10 +215,10 @@ describe("Home Page", () => {
       ).toBeInTheDocument();
     });
 
-    it("deve exibir o label 'Investir é Fácil'", () => {
+    it("deve exibir o label 'Adotar e começar é Fácil'", () => {
       render(<Home />);
       expect(
-        screen.getByText(/Investir é Fácil/),
+        screen.getByText(/Adotar e começar é Fácil/),
       ).toBeInTheDocument();
     });
   });
