@@ -684,6 +684,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Investment / Pricing Highlights Section */}
+      <section className="py-16 bg-gradient-to-r from-[#9ccc65]/15 via-[#2d2d2d] to-[#9ccc65]/15 border-y border-[#9ccc65]/30">
+        <div className="container mx-auto px-6">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <div className="inline-flex items-center gap-2 bg-[#9ccc65]/15 border border-[#9ccc65]/40 rounded-full px-5 py-2 mb-6">
+                <span className="text-[#9ccc65] text-sm font-semibold tracking-widest uppercase">
+                  Investir é Fácil
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                Sem barreiras para começar
+              </h2>
+              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                A plataforma foi pensada para remover obstáculos e deixar você focado no que importa: cuidar da saúde mental da sua equipe.
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="bg-[#2d2d2d]/80 border-2 border-[#9ccc65]/40 rounded-2xl p-8 shadow-organic hover:border-[#9ccc65] transition-colors"
+              >
+                <div className="text-4xl mb-4">🆓</div>
+                <h3 className="text-2xl font-bold text-white mb-3">
+                  Sem Cobrança de Setup
+                </h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Comece a usar a plataforma imediatamente — não há custos de configuração ou implementação. Você só paga quando emitir um laudo. Sem surpresas, sem taxas ocultas.
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="bg-[#2d2d2d]/80 border-2 border-[#9ccc65]/40 rounded-2xl p-8 shadow-organic hover:border-[#9ccc65] transition-colors"
+              >
+                <div className="text-4xl mb-4">💳</div>
+                <h3 className="text-2xl font-bold text-white mb-3">
+                  Parcelamento para Grandes Volumes
+                </h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Emitir muitos laudos? Oferecemos opções de parcelamento flexíveis para grandes volumes de avaliações. Quanto maior seu volume, maiores os descontos — converse com nosso time.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Cadastro Representantes Section */}
       <section
         id="representantes"

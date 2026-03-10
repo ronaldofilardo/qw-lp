@@ -112,3 +112,4 @@ export const faqItems: FAQItem[] = [
       "Sim. Empresas e departamentos de RH também podem usar a plataforma diretamente, sem precisar de uma operadora intermediária. A precificação para empresas e entidades parte de R$ 20 por colaborador avaliado, com possibilidade de desconto para grandes volumes. O processo é o mesmo: cadastro gratuito, avaliações ilimitadas e pagamento somente na emissão do Laudo.",
   },
 ];
+

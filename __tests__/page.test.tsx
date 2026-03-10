@@ -186,4 +186,40 @@ describe("Home Page", () => {
       expect(contactSection).toBeInTheDocument();
     });
   });
+
+  describe("Seção Investir é Fácil — Pricing", () => {
+    it("deve exibir 'Sem Cobrança de Setup' com descrição completa", () => {
+      render(<Home />);
+      expect(
+        screen.getByText(/Sem Cobrança de Setup/),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/não há custos de configuração ou implementação/i),
+      ).toBeInTheDocument();
+    });
+
+    it("deve exibir 'Parcelamento para Grandes Volumes' com opções flexíveis", () => {
+      render(<Home />);
+      expect(
+        screen.getByText(/Parcelamento para Grandes Volumes/),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/opções de parcelamento flexíveis/i),
+      ).toBeInTheDocument();
+    });
+
+    it("deve exibir o titulo 'Sem barreiras para começar'", () => {
+      render(<Home />);
+      expect(
+        screen.getByText(/Sem barreiras para começar/),
+      ).toBeInTheDocument();
+    });
+
+    it("deve exibir o label 'Investir é Fácil'", () => {
+      render(<Home />);
+      expect(
+        screen.getByText(/Investir é Fácil/),
+      ).toBeInTheDocument();
+    });
+  });
 });
