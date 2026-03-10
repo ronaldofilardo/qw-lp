@@ -222,4 +222,33 @@ describe("Home Page", () => {
       ).toBeInTheDocument();
     });
   });
+
+  describe("Seção Footer", () => {
+    it("não deve exibir a seção 'Legal'", () => {
+      render(<Home />);
+      // Procura por heading com "Legal" - não deve existir
+      const legalHeading = screen.queryByText(/^Legal$/);
+      expect(legalHeading).not.toBeInTheDocument();
+    });
+
+    it("não deve exibir link 'Termos de Uso'", () => {
+      render(<Home />);
+      expect(
+        screen.queryByText(/Termos de Uso/),
+      ).not.toBeInTheDocument();
+    });
+
+    it("não deve exibir link 'Política de Privacidade'", () => {
+      render(<Home />);
+      expect(
+        screen.queryByText(/Política de Privacidade/),
+      ).not.toBeInTheDocument();
+    });
+
+    it("deve exibir seção de Contato com telefone", () => {
+      render(<Home />);
+      expect(screen.getByText(/Contato/)).toBeInTheDocument();
+      expect(screen.getByText(/\[41\] 98516-1858/)).toBeInTheDocument();
+    });
+  });
 });

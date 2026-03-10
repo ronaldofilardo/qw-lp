@@ -1043,27 +1043,6 @@ export default function Home() {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-bold mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a
-                    href="/termos-de-uso"
-                    className="text-gray-500 hover:text-[#9ccc65] transition-colors"
-                  >
-                    Termos de Uso
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/politica-de-privacidade"
-                    className="text-gray-500 hover:text-[#9ccc65] transition-colors"
-                  >
-                    Política de Privacidade
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
               <h3 className="text-lg font-bold mb-4">Contato</h3>
               <ul className="space-y-2">
                 <li className="flex items-center gap-3 text-gray-500">
