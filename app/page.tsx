@@ -13,7 +13,6 @@ import {
   HeartPulse,
   Instagram,
   Linkedin,
-  Mail,
   MapPin,
   Menu,
   Phone,
@@ -724,9 +723,8 @@ export default function Home() {
               </h3>
               <p className="text-gray-400 leading-relaxed mb-8">
                 Ganhe comissões reais vendendo saúde mental. Nossos
-                representantes ganham a partir de 20% do valor negociado —
-                sem limite de lucro. Ajude empresas enquanto constrói sua
-                renda.
+                representantes ganham a partir de 20% do valor negociado — sem
+                limite de lucro. Ajude empresas enquanto constrói sua renda.
               </p>
               <ul className="space-y-5">
                 {[
@@ -1011,16 +1009,12 @@ export default function Home() {
               <h3 className="text-lg font-bold mb-4">Contato</h3>
               <ul className="space-y-2">
                 <li className="flex items-center gap-3 text-gray-500">
-                  <Mail className="w-5 h-5" />
-                  <span>contato@qwork.com.br</span>
-                </li>
-                <li className="flex items-center gap-3 text-gray-500">
                   <Phone className="w-5 h-5" />
-                  <span>+55 (11) 99999-9999</span>
+                  <span>[41] 98516-1858</span>
                 </li>
                 <li className="flex items-center gap-3 text-gray-500">
                   <MapPin className="w-5 h-5" />
-                  <span>São Paulo, SP</span>
+                  <span>Curitiba, PR</span>
                 </li>
               </ul>
             </div>

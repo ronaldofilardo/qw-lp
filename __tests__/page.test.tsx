@@ -116,7 +116,9 @@ describe("Home Page", () => {
       render(<Home />);
       // Texto único da descrição do item 1
       expect(
-        screen.getByText(/quanto mais fechar, mais ganha — sem limite de lucro/i),
+        screen.getByText(
+          /quanto mais fechar, mais ganha — sem limite de lucro/i,
+        ),
       ).toBeInTheDocument();
     });
 
@@ -133,25 +135,55 @@ describe("Home Page", () => {
     it("deve exibir o dashboard com texto atualizado", () => {
       render(<Home />);
       expect(
-        screen.getByText(/visualize cada venda e cada centavo ganho em tempo real/i),
+        screen.getByText(
+          /visualize cada venda e cada centavo ganho em tempo real/i,
+        ),
       ).toBeInTheDocument();
     });
 
     it("deve exibir o suporte sem mencionar treinamento", () => {
       render(<Home />);
       expect(
-        screen.getByText(/materiais de vendas prontos e suporte comercial dedicado/i),
+        screen.getByText(
+          /materiais de vendas prontos e suporte comercial dedicado/i,
+        ),
       ).toBeInTheDocument();
-      expect(
-        screen.queryByText(/treinamento/i),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText(/treinamento/i)).not.toBeInTheDocument();
     });
 
     it("deve exibir o item de recebimento via PIX", () => {
       render(<Home />);
       expect(
-        screen.getByText(/comiss[oõ]es pagas de forma r[aá]pida e sem burocracia/i),
+        screen.getByText(
+          /comiss[oõ]es pagas de forma r[aá]pida e sem burocracia/i,
+        ),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe("Seção Contato", () => {
+    it("deve exibir o telefone atualizado [41] 98516-1858", () => {
+      render(<Home />);
+      expect(screen.getByText(/\[41\] 98516-1858/)).toBeInTheDocument();
+    });
+
+    it("deve exibir Curitiba, PR como localização", () => {
+      render(<Home />);
+      expect(screen.getByText(/Curitiba, PR/)).toBeInTheDocument();
+    });
+
+    it("deve remover o email contato@qwork.com.br da seção de contato", () => {
+      render(<Home />);
+      expect(
+        screen.queryByText(/contato@qwork\.com\.br/),
+      ).not.toBeInTheDocument();
+    });
+
+    it("não deve renderizar o ícone Mail na seção de contato", () => {
+      const { container } = render(<Home />);
+      // Verifica se não há referencias para Mail na seção de contato
+      const contactSection = screen.queryByText(/Contato/);
+      expect(contactSection).toBeInTheDocument();
     });
   });
 });
