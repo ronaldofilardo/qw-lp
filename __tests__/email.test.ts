@@ -4,15 +4,15 @@
 
 import { generateConfirmationLink } from "@/lib/email";
 
-// ── Mock do Resend (ambos os emails usam Resend) ────────────────────────────
+// ── Mock do Nodemailer (M365 SMTP) ──────────────────────────────────────────
 
-const mockResendSend = jest
+const mockSendMail = jest
   .fn()
-  .mockResolvedValue({ data: { id: "mock-email-id" }, error: null });
+  .mockResolvedValue({ messageId: "mock-message-id" });
 
-jest.mock("resend", () => ({
-  Resend: jest.fn(() => ({
-    emails: { send: (...args: unknown[]) => mockResendSend(...args) },
+jest.mock("nodemailer", () => ({
+  createTransport: jest.fn(() => ({
+    sendMail: (...args: unknown[]) => mockSendMail(...args),
   })),
 }));
 
@@ -26,8 +26,8 @@ describe("Email — confirmação de representante", () => {
     process.env = {
       ...originalEnv,
       NEXT_PUBLIC_APP_URL: "https://qwork.app.br",
-      RESEND_API_KEY: "re_test_key",
-      ADMIN_EMAIL: "ronaldofilardo@gmail.com",
+      SMTP_PASS: "test-smtp-pass",
+      ADMIN_EMAIL: "contato@qwork.app.br",
     };
   });
 
@@ -44,8 +44,8 @@ describe("Email — confirmação de representante", () => {
       "abc-token-123",
     );
 
-    expect(mockResendSend).toHaveBeenCalledTimes(1);
-    expect(mockResendSend).toHaveBeenCalledWith(
+    expect(mockSendMail).toHaveBeenCalledTimes(1);
+    expect(mockSendMail).toHaveBeenCalledWith(
       expect.objectContaining({
         to: "representante@email.com",
         subject: expect.stringContaining("Recebemos seu cadastro"),
@@ -99,10 +99,10 @@ describe("Email — confirmação de representante", () => {
       temDocumentos: true,
     });
 
-    expect(mockResendSend).toHaveBeenCalledTimes(1);
-    expect(mockResendSend).toHaveBeenCalledWith(
+    expect(mockSendMail).toHaveBeenCalledTimes(1);
+    expect(mockSendMail).toHaveBeenCalledWith(
       expect.objectContaining({
-        to: "ronaldofilardo@gmail.com",
+        to: "contato@qwork.app.br",
         subject: expect.stringContaining("Maria Souza"),
         html: expect.stringContaining("PF"),
       }),

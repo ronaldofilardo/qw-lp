@@ -703,7 +703,8 @@ export default function Home() {
                 Sem barreiras para começar
               </h2>
               <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                A plataforma foi pensada para remover obstáculos e deixar você focado no que importa: cuidar da saúde mental da sua equipe.
+                A plataforma foi pensada para remover obstáculos e deixar você
+                focado no que importa: cuidar da saúde mental da sua equipe.
               </p>
             </motion.div>
 
@@ -719,7 +720,9 @@ export default function Home() {
                   Sem Cobrança de Setup
                 </h3>
                 <p className="text-gray-400 leading-relaxed">
-                  Comece a usar a plataforma imediatamente — não há custos de configuração ou implementação. Você só paga quando emitir um laudo. Sem surpresas, sem taxas ocultas.
+                  Comece a usar a plataforma imediatamente — não há custos de
+                  configuração ou implementação. Você só paga quando emitir um
+                  laudo. Sem surpresas, sem taxas ocultas.
                 </p>
               </motion.div>
 
@@ -734,7 +737,9 @@ export default function Home() {
                   Parcelamento para Grandes Volumes
                 </h3>
                 <p className="text-gray-400 leading-relaxed">
-                  Emitir muitos laudos? Oferecemos opções de parcelamento flexíveis para grandes volumes de avaliações. Quanto maior seu volume, maiores os descontos — converse com nosso time.
+                  Emitir muitos laudos? Oferecemos opções de parcelamento
+                  flexíveis para grandes volumes de avaliações. Quanto maior seu
+                  volume, maiores os descontos — converse com nosso time.
                 </p>
               </motion.div>
             </div>

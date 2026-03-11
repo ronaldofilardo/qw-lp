@@ -115,7 +115,7 @@ describe("POST /api/lead", () => {
         emailPessoal: "teste@email.com",
         empresa: "Empresa Teste",
         emailRH: "rh@teste.com",
-        destinatario: "ronaldofilardo@gmail.com",
+        destinatario: "contato@qwork.app.br",
       }),
     );
   });

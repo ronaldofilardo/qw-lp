@@ -15,7 +15,7 @@ interface LeadPayload {
 // async function sendEmail(lead: LeadPayload) {
 //   await resend.emails.send({
 //     from: "noreply@qwork.com.br",
-//     to: "ronaldofilardo@gmail.com",
+//     to: "contato@qwork.app.br",
 //     subject: `Nova indicação QWork — ${lead.nome} (${lead.empresa})`,
 //     html: `
 //       <h2>Nova sugestão de indicação recebida</h2>
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       empresa,
       emailRH: emailRH ?? "Não informado",
       recebidoEm: new Date().toISOString(),
-      destinatario: "ronaldofilardo@gmail.com",
+      destinatario: "contato@qwork.app.br",
     });
 
     // await sendEmail(body);

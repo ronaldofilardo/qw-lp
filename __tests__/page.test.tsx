@@ -172,10 +172,10 @@ describe("Home Page", () => {
       expect(screen.getByText(/Curitiba, PR/)).toBeInTheDocument();
     });
 
-    it("deve remover o email contato@qwork.com.br da seção de contato", () => {
+    it("deve remover o email contato@qwork.app.br da seção de contato", () => {
       render(<Home />);
       expect(
-        screen.queryByText(/contato@qwork\.com\.br/),
+        screen.queryByText(/contato@qwork\.app\.br/),
       ).not.toBeInTheDocument();
     });
 
@@ -190,9 +190,7 @@ describe("Home Page", () => {
   describe("Seção Adotar e começar é Fácil — Pricing", () => {
     it("deve exibir 'Sem Cobrança de Setup' com descrição completa", () => {
       render(<Home />);
-      expect(
-        screen.getByText(/Sem Cobrança de Setup/),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Sem Cobrança de Setup/)).toBeInTheDocument();
       expect(
         screen.getByText(/não há custos de configuração ou implementação/i),
       ).toBeInTheDocument();
@@ -217,9 +215,7 @@ describe("Home Page", () => {
 
     it("deve exibir o label 'Adotar e começar é Fácil'", () => {
       render(<Home />);
-      expect(
-        screen.getByText(/Adotar e começar é Fácil/),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Adotar e começar é Fácil/)).toBeInTheDocument();
     });
   });
 
@@ -233,9 +229,7 @@ describe("Home Page", () => {
 
     it("não deve exibir link 'Termos de Uso'", () => {
       render(<Home />);
-      expect(
-        screen.queryByText(/Termos de Uso/),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText(/Termos de Uso/)).not.toBeInTheDocument();
     });
 
     it("não deve exibir link 'Política de Privacidade'", () => {

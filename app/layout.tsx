@@ -112,7 +112,7 @@ const jsonLd = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer support",
-        email: "contato@qwork.com.br",
+        email: "contato@qwork.app.br",
         availableLanguage: "Portuguese",
       },
       sameAs: [],
