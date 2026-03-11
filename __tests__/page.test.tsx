@@ -172,11 +172,16 @@ describe("Home Page", () => {
       expect(screen.getByText(/Curitiba, PR/)).toBeInTheDocument();
     });
 
-    it("deve remover o email contato@qwork.app.br da seção de contato", () => {
+    it("deve exibir o email contato@qwork.app.br como link na seção de contato", () => {
       render(<Home />);
-      expect(
-        screen.queryByText(/contato@qwork\.app\.br/),
-      ).not.toBeInTheDocument();
+      const emailLink = screen.getByRole("link", {
+        name: /contato@qwork\.app\.br/i,
+      });
+      expect(emailLink).toBeInTheDocument();
+      expect(emailLink).toHaveAttribute(
+        "href",
+        expect.stringContaining("mailto:contato@qwork.app.br"),
+      );
     });
 
     it("não deve renderizar o ícone Mail na seção de contato", () => {

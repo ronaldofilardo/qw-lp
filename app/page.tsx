@@ -561,9 +561,12 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] py-3 rounded-lg font-semibold btn-organic transition-colors">
+                <a
+                  href="mailto:contato@qwork.app.br?subject=Solicitar%20Or%C3%A7amento%20Customizado&body=Ol%C3%A1%2C%0A%0AGostaria%20de%20solicitar%20um%20or%C3%A7amento%20customizado%20para%20minha%20organiza%C3%A7%C3%A3o.%0A%0AAtenciosamente"
+                  className="w-full bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] py-3 rounded-lg font-semibold btn-organic transition-colors text-center block"
+                >
                   Solicitar Orçamento Customizado
-                </button>
+                </a>
               </div>
               <div className="bg-[#2d2d2d] border border-gray-700 rounded-2xl p-7 shadow-organic">
                 <div className="flex items-center gap-3 mb-4">
@@ -1050,6 +1053,15 @@ export default function Home() {
             <div>
               <h3 className="text-lg font-bold mb-4">Contato</h3>
               <ul className="space-y-2">
+                <li className="flex items-center gap-3">
+                  <a
+                    href="mailto:contato@qwork.app.br"
+                    className="text-gray-500 hover:text-[#9ccc65] transition-colors flex items-center gap-3"
+                  >
+                    <span>✉</span>
+                    <span>contato@qwork.app.br</span>
+                  </a>
+                </li>
                 <li className="flex items-center gap-3 text-gray-500">
                   <Phone className="w-5 h-5" />
                   <span>[41] 98516-1858</span>
