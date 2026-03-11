@@ -428,9 +428,11 @@ export default function ComecarPage() {
 
                 {/* Link direto de email */}
                 <div className="text-center">
-                  <p className="text-gray-500 text-xs mb-2">ou envie diretamente</p>
+                  <p className="text-gray-500 text-xs mb-2">
+                    ou envie diretamente
+                  </p>
                   <a
-                    href="mailto:contato@qwork.app.br?subject=Sugest%C3%A3o%20para%20meu%20RH&body=Ol%C3%A1%2C%0A%0AGostaria%20de%20sugerir%20a%20QWork%20para%20meu%20RH.%0A%0AAtenciosamente"
+                    href="mailto:contato@qwork.app.br?subject=Sugest%C3%A3o%20para%20meu%20RH"
                     className="inline-flex items-center gap-2 text-[#9ccc65] hover:text-[#7cb342] font-semibold text-sm transition-colors"
                   >
                     <span>✉</span>
