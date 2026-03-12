@@ -105,3 +105,56 @@ export async function sendAdminNotification(
 
   console.log(`[EMAIL] Notificação admin enviada`);
 }
+
+export interface OrcamentoEmailPayload {
+  tipoOrganizacao: "empresa_privada" | "medicina_ocupacional";
+  numeroFuncionarios?: number;
+  numeroEmpresas?: number;
+  totalFuncionarios?: number;
+  nome: string;
+  email: string;
+  telefone: string;
+}
+
+export async function sendOrcamentoEmail(
+  data: OrcamentoEmailPayload,
+): Promise<void> {
+  const transporter = createTransporter();
+
+  const tipoLabel =
+    data.tipoOrganizacao === "empresa_privada"
+      ? "Empresa Privada"
+      : "Operadora de Medicina Ocupacional";
+
+  const dimensionamentoRows =
+    data.tipoOrganizacao === "empresa_privada"
+      ? `<tr><td style="color:#888;">Funcionários</td><td>${data.numeroFuncionarios?.toLocaleString("pt-BR")}</td></tr>`
+      : `
+          <tr><td style="color:#888;">Empresas atendidas</td><td>${data.numeroEmpresas?.toLocaleString("pt-BR")}</td></tr>
+          <tr><td style="color:#888;">Total de funcionários</td><td>${data.totalFuncionarios?.toLocaleString("pt-BR")}</td></tr>
+        `;
+
+  await transporter.sendMail({
+    from: `QWork <${ADMIN_EMAIL}>`,
+    to: ADMIN_EMAIL,
+    subject: `📋 Solicitação de Orçamento — ${data.nome}`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#1a1a1a;color:#fff;border-radius:12px;">
+        <h2 style="color:#9ccc65;">Solicitação de Orçamento Customizado</h2>
+        <table style="width:100%;color:#ccc;font-size:14px;line-height:2;">
+          <tr><td style="color:#888;">Tipo</td><td><strong>${tipoLabel}</strong></td></tr>
+          ${dimensionamentoRows}
+          <tr><td style="color:#888;">Nome</td><td>${data.nome}</td></tr>
+          <tr><td style="color:#888;">E-mail</td><td>${data.email}</td></tr>
+          <tr><td style="color:#888;">Telefone</td><td>${data.telefone}</td></tr>
+        </table>
+        <hr style="border:none;border-top:1px solid #333;margin:24px 0;" />
+        <p style="color:#555;font-size:12px;text-align:center;">
+          &copy; ${new Date().getFullYear()} QWork
+        </p>
+      </div>
+    `,
+  });
+
+  console.log(`[EMAIL] Orçamento enviado — ${data.nome}`);
+}

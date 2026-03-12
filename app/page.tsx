@@ -562,7 +562,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <a
-                  href="mailto:contato@qwork.app.br?subject=Solicitar%20Or%C3%A7amento%20Customizado"
+                  href="/orcamento"
                   className="w-full bg-[#9ccc65] hover:bg-[#7cb342] text-[#1a1a1a] py-3 rounded-lg font-semibold btn-organic transition-colors text-center block"
                 >
                   Solicitar Orçamento Customizado

@@ -14,6 +14,7 @@ import {
 } from "@/lib/validators/representante";
 import { sendConfirmationEmail, sendAdminNotification } from "@/lib/email";
 import type { AdminNotificationPayload } from "@/lib/email";
+import type { DocUploadResult } from "@/lib/storage/representante-storage";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -111,6 +112,66 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ errors: fileErrors }, { status: 400 });
     }
 
+    // ── Upload Backblaze (staging/prod — VERCEL=1) ────────────────────────
+    // Em DEV o backend QWork faz o upload; no Vercel a LP sobe diretamente.
+    const isVercel = process.env.VERCEL === "1";
+    const backblazeUploads: Record<string, DocUploadResult> = {};
+
+    if (isVercel) {
+      const { uploadDocumentoRepresentante } = await import(
+        "@/lib/storage/representante-storage"
+      );
+
+      // Identificador somente dígitos (CPF para PF, CNPJ para PJ)
+      const identificador =
+        tipoPessoa === "PF"
+          ? (raw.cpf ?? "").replace(/\D/g, "")
+          : (raw.cnpj ?? "").replace(/\D/g, "");
+
+      try {
+        if (tipoPessoa === "PF") {
+          const docCpf = formData.get("documentoCpf") as File | null;
+          if (docCpf && docCpf.size > 0) {
+            backblazeUploads.cpf = await uploadDocumentoRepresentante(
+              docCpf,
+              "cpf",
+              identificador,
+              "PF",
+            );
+          }
+        } else {
+          const docCnpj = formData.get("documentoCnpj") as File | null;
+          const docCpfResp = formData.get(
+            "documentoCpfResponsavel",
+          ) as File | null;
+
+          if (docCnpj && docCnpj.size > 0) {
+            backblazeUploads.cnpj = await uploadDocumentoRepresentante(
+              docCnpj,
+              "cnpj",
+              identificador,
+              "PJ",
+            );
+          }
+          if (docCpfResp && docCpfResp.size > 0) {
+            backblazeUploads.cpf_responsavel =
+              await uploadDocumentoRepresentante(
+                docCpfResp,
+                "cpf_responsavel",
+                identificador,
+                "PJ",
+              );
+          }
+        }
+      } catch (uploadErr) {
+        console.error("[REPRESENTANTE] Falha no upload Backblaze:", uploadErr);
+        return NextResponse.json(
+          { errors: { form: "Erro ao enviar documentos. Tente novamente." } },
+          { status: 503 },
+        );
+      }
+    }
+
     // ── Gerar token ───────────────────────────────────────────────────────
     const token = crypto.randomUUID();
 
@@ -145,9 +206,18 @@ export async function POST(req: NextRequest) {
       // Campos PF
       if (raw.tipoPessoa === "PF") {
         forwardData.append("cpf", raw.cpf ?? "");
-        const docCpf = formData.get("documentoCpf") as File | null;
-        if (docCpf && docCpf.size > 0)
-          forwardData.append("documento_cpf", docCpf);
+        if (isVercel) {
+          // Staging/prod: arquivos já foram enviados ao Backblaze; passa as chaves
+          if (backblazeUploads.cpf) {
+            forwardData.append("backblaze_key_cpf", backblazeUploads.cpf.key);
+            forwardData.append("backblaze_url_cpf", backblazeUploads.cpf.url);
+          }
+        } else {
+          // DEV: repassa o arquivo para o QWork fazer o upload
+          const docCpf = formData.get("documentoCpf") as File | null;
+          if (docCpf && docCpf.size > 0)
+            forwardData.append("documento_cpf", docCpf);
+        }
       }
 
       // Campos PJ
@@ -155,14 +225,33 @@ export async function POST(req: NextRequest) {
         forwardData.append("cnpj", raw.cnpj ?? "");
         forwardData.append("razao_social", raw.razaoSocial ?? "");
         forwardData.append("cpf_responsavel", raw.cpfResponsavel ?? "");
-        const docCnpj = formData.get("documentoCnpj") as File | null;
-        const docCpfResp = formData.get(
-          "documentoCpfResponsavel",
-        ) as File | null;
-        if (docCnpj && docCnpj.size > 0)
-          forwardData.append("documento_cnpj", docCnpj);
-        if (docCpfResp && docCpfResp.size > 0)
-          forwardData.append("documento_cpf_responsavel", docCpfResp);
+        if (isVercel) {
+          // Staging/prod: passa as chaves Backblaze
+          if (backblazeUploads.cnpj) {
+            forwardData.append("backblaze_key_cnpj", backblazeUploads.cnpj.key);
+            forwardData.append("backblaze_url_cnpj", backblazeUploads.cnpj.url);
+          }
+          if (backblazeUploads.cpf_responsavel) {
+            forwardData.append(
+              "backblaze_key_cpf_responsavel",
+              backblazeUploads.cpf_responsavel.key,
+            );
+            forwardData.append(
+              "backblaze_url_cpf_responsavel",
+              backblazeUploads.cpf_responsavel.url,
+            );
+          }
+        } else {
+          // DEV: repassa os arquivos para o QWork fazer o upload
+          const docCnpj = formData.get("documentoCnpj") as File | null;
+          const docCpfResp = formData.get(
+            "documentoCpfResponsavel",
+          ) as File | null;
+          if (docCnpj && docCnpj.size > 0)
+            forwardData.append("documento_cnpj", docCnpj);
+          if (docCpfResp && docCpfResp.size > 0)
+            forwardData.append("documento_cpf_responsavel", docCpfResp);
+        }
       }
 
       forwardData.append("token", token);

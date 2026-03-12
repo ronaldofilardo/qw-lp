@@ -9,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1007.0",
     "@hookform/resolvers": "^5.2.2",
     "framer-motion": "^12.29.2",
     "lucide-react": "^0.563.0",
