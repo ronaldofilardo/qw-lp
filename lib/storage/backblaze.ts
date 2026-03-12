@@ -5,6 +5,7 @@
  * Em DEV, os uploads são delegados ao backend QWork via QWORK_API_URL.
  */
 
+import crypto from "crypto";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 // ── Tipos ──────────────────────────────────────────────────────────────────
@@ -95,19 +96,61 @@ export async function uploadToBackblaze(
   bucket: string,
   credentials?: BackblazeCredentials,
 ): Promise<BackblazeUploadResult> {
-  const client = createClient(credentials);
   const endpoint = resolveEndpoint();
 
-  await client.send(
-    new PutObjectCommand({
-      Bucket: bucket,
-      Key: key,
-      Body: buffer,
-      ContentType: contentType,
-    }),
+  // Validação do buffer
+  if (!buffer || buffer.length === 0) {
+    throw new Error(
+      `[BACKBLAZE] Buffer vazio: não é possível fazer upload de arquivo com 0 bytes para ${key}`,
+    );
+  }
+
+  console.log(
+    `[BACKBLAZE] Iniciando upload: ${key} (${buffer.length} bytes, ${contentType})`,
   );
 
-  const url = `${endpoint}/${bucket}/${key}`;
+  // Calcular MD5 para verificação de integridade (como no QWork)
+  const md5Hash = crypto.createHash("md5").update(buffer).digest("base64");
 
-  return { provider: "backblaze", bucket, key, url };
+  const client = createClient(credentials);
+
+  try {
+    await client.send(
+      new PutObjectCommand({
+        Bucket: bucket,
+        Key: key,
+        Body: buffer,
+        ContentType: contentType,
+        ContentMD5: md5Hash,
+        Metadata: {
+          "uploaded-at": new Date().toISOString(),
+          "file-size": buffer.length.toString(),
+        },
+      }),
+    );
+
+    const url = `${endpoint}/${bucket}/${key}`;
+
+    console.log(
+      `[BACKBLAZE] Upload bem-sucedido: ${key} (${buffer.length} bytes) → ${bucket}`,
+    );
+
+    return { provider: "backblaze", bucket, key, url };
+  } catch (error: any) {
+    console.error(
+      `[BACKBLAZE] Erro no upload de ${key}:`,
+      error?.message || error,
+    );
+
+    if (
+      error?.Code === "InvalidAccessKeyId" ||
+      /InvalidAccessKeyId|Malformed Access Key/i.test(String(error?.message || ""))
+    ) {
+      throw new Error(
+        "[BACKBLAZE] Credenciais inválidas (InvalidAccessKeyId). Verifique BACKBLAZE_KEY_ID e BACKBLAZE_APPLICATION_KEY.",
+      );
+    }
+
+    throw error;
+  }
 }

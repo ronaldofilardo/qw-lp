@@ -96,7 +96,25 @@ export async function uploadDocumentoRepresentante(
   tipoPessoa: TipoPessoa,
   subpasta: SubpastaRep = "CAD",
 ): Promise<DocUploadResult> {
-  const buffer = Buffer.from(await file.arrayBuffer());
+  // Converter File para Buffer
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  console.log(
+    `[REP-STORAGE] Convertido ${tipo} para buffer: ${buffer.length} bytes (original: ${file.size})`,
+  );
+
+  if (buffer.length === 0) {
+    throw new Error(
+      `Arquivo "${tipo}" está vazio (0 bytes). Verifique se o arquivo foi selecionado corretamente.`,
+    );
+  }
+
+  if (buffer.length !== file.size) {
+    console.warn(
+      `[REP-STORAGE] Tamanho do buffer (${buffer.length}) diferente do file.size (${file.size}) para ${tipo}`,
+    );
+  }
 
   // Validação de conteúdo via magic bytes (evita upload de arquivos adulterados)
   if (!validarMagicBytes(buffer, file.type)) {
@@ -124,17 +142,22 @@ export async function uploadDocumentoRepresentante(
     );
   }
 
-  const result: BackblazeUploadResult = await uploadToBackblaze(
-    buffer,
-    key,
-    file.type,
-    REP_BUCKET,
-    credentials,
-  );
+  try {
+    const result = await uploadToBackblaze(
+      buffer,
+      key,
+      file.type,
+      REP_BUCKET,
+      credentials,
+    );
 
-  console.log(
-    `[REP-STORAGE] ${tipo} (${tipoPessoa}/${identificador}) → ${REP_BUCKET}/${key}`,
-  );
+    console.log(
+      `[REP-STORAGE] ✓ ${tipo} (${tipoPessoa}/${identificador}) → ${REP_BUCKET}/${key}`,
+    );
 
-  return { key: result.key, url: result.url, bucket: result.bucket };
+    return { key: result.key, url: result.url, bucket: result.bucket };
+  } catch (error) {
+    console.error(`[REP-STORAGE] Erro ao upload ${tipo}:`, error);
+    throw error;
+  }
 }

@@ -132,6 +132,9 @@ export async function POST(req: NextRequest) {
         if (tipoPessoa === "PF") {
           const docCpf = formData.get("documentoCpf") as File | null;
           if (docCpf && docCpf.size > 0) {
+            console.log(
+              `[REPRESENTANTE] Upload PF: documentoCpf (${docCpf.size} bytes, ${docCpf.type})`,
+            );
             backblazeUploads.cpf = await uploadDocumentoRepresentante(
               docCpf,
               "cpf",
@@ -146,6 +149,9 @@ export async function POST(req: NextRequest) {
           ) as File | null;
 
           if (docCnpj && docCnpj.size > 0) {
+            console.log(
+              `[REPRESENTANTE] Upload PJ: documentoCnpj (${docCnpj.size} bytes, ${docCnpj.type})`,
+            );
             backblazeUploads.cnpj = await uploadDocumentoRepresentante(
               docCnpj,
               "cnpj",
@@ -154,6 +160,9 @@ export async function POST(req: NextRequest) {
             );
           }
           if (docCpfResp && docCpfResp.size > 0) {
+            console.log(
+              `[REPRESENTANTE] Upload PJ: documentoCpfResponsavel (${docCpfResp.size} bytes, ${docCpfResp.type})`,
+            );
             backblazeUploads.cpf_responsavel =
               await uploadDocumentoRepresentante(
                 docCpfResp,
