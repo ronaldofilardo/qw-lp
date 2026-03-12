@@ -189,11 +189,19 @@ export async function POST(req: NextRequest) {
           backblazeCredentialsMissing = true;
           // Continuar normalmente — forwardData repassará os arquivos ao QWork
         } else {
-          // Outros erros — rejeitar
+          // Outros erros — logar com detalhes e rejeitar
           console.error(
-            "[REPRESENTANTE] Falha no upload Backblaze:",
-            errMsg,
-            uploadErr,
+            "[REPRESENTANTE] Falha crítica no upload Backblaze:",
+            {
+              message: errMsg,
+              code: (uploadErr as any)?.Code || (uploadErr as any)?.code,
+              keyId: process.env.BACKBLAZE_REP_KEY_ID
+                ? `${process.env.BACKBLAZE_REP_KEY_ID.slice(0, 10)}...`
+                : process.env.BACKBLAZE_KEY_ID
+                  ? `${process.env.BACKBLAZE_KEY_ID.slice(0, 10)}... (fallback BACKBLAZE_KEY_ID)`
+                  : "(nenhuma credencial encontrada)",
+              endpoint: process.env.BACKBLAZE_ENDPOINT || "(default)",
+            },
           );
           return NextResponse.json(
             { errors: { form: "Erro ao enviar documentos. Tente novamente." } },

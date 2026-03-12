@@ -28,13 +28,21 @@ const ALLOWED_ENDPOINT_PATTERN =
   /^https:\/\/s3\.[a-z0-9-]+\.backblazeb2\.com$/i;
 
 function resolveEndpoint(): string {
-  const ep =
+  let ep =
     process.env.BACKBLAZE_ENDPOINT ||
     "https://s3.us-east-005.backblazeb2.com";
 
+  // Normalizar: adicionar https:// se ausente (compatibilidade com envs sem protocolo)
+  if (!/^[a-z]+:\/\//i.test(ep)) {
+    ep = `https://${ep}`;
+  }
+
+  // Remover barra final
+  ep = ep.replace(/\/$/, "");
+
   if (!ALLOWED_ENDPOINT_PATTERN.test(ep)) {
     throw new Error(
-      `[BACKBLAZE] Endpoint inválido: "${ep}". Deve ser *.backblazeb2.com`,
+      `[BACKBLAZE] Endpoint inválido: "${ep}". Deve ser https://*.backblazeb2.com`,
     );
   }
 
@@ -125,12 +133,17 @@ export async function uploadToBackblaze(
   }
 
   try {
+    // Uint8Array garante que o SDK v3 não re-processa o Buffer como stream,
+    // evitando o erro IncompleteBody em ambientes serverless (Vercel)
+    const body = new Uint8Array(buffer);
+
     await client.send(
       new PutObjectCommand({
         Bucket: bucket,
         Key: key,
-        Body: buffer,
+        Body: body,
         ContentType: contentType,
+        ContentLength: buffer.length,
         ContentMD5: md5Hash,
         Metadata: {
           "uploaded-at": new Date().toISOString(),
