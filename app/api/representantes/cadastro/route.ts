@@ -294,9 +294,14 @@ export async function POST(req: NextRequest) {
       forwardData.append("token", token);
 
       try {
+        const bypassSecret = process.env.VERCEL_BYPASS_SECRET;
+        const qworkHeaders: HeadersInit = bypassSecret
+          ? { 'x-vercel-protection-bypass': bypassSecret }
+          : {};
+
         const qworkRes = await fetch(
           `${qworkUrl}/api/public/representantes/cadastro`,
-          { method: "POST", body: forwardData },
+          { method: "POST", body: forwardData, headers: qworkHeaders },
         );
 
         if (!qworkRes.ok) {
