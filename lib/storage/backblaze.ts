@@ -43,7 +43,7 @@ function resolveEndpoint(): string {
 
 // ── Factory do cliente S3 ──────────────────────────────────────────────────
 
-function createClient(credentials?: BackblazeCredentials): S3Client {
+function createClient(credentials?: BackblazeCredentials): S3Client | null {
   const endpoint = resolveEndpoint();
   const region =
     process.env.BACKBLAZE_REGION ||
@@ -64,10 +64,9 @@ function createClient(credentials?: BackblazeCredentials): S3Client {
     ""
   ).trim();
 
+  // Se credenciais não existem, retornar null (fallback ao QWork)
   if (!keyId || !appKey) {
-    throw new Error(
-      "[BACKBLAZE] Credenciais não configuradas: defina BACKBLAZE_KEY_ID e BACKBLAZE_APPLICATION_KEY",
-    );
+    return null;
   }
 
   return new S3Client({
@@ -88,6 +87,8 @@ function createClient(credentials?: BackblazeCredentials): S3Client {
  * @param contentType - MIME type do arquivo
  * @param bucket      - Nome do bucket de destino
  * @param credentials - Credenciais específicas (opcional; usa env vars como fallback)
+ *
+ * @throws Error com código "BACKBLAZE_CREDENTIALS_MISSING" se credenciais não configuradas
  */
 export async function uploadToBackblaze(
   buffer: Buffer,
@@ -113,6 +114,15 @@ export async function uploadToBackblaze(
   const md5Hash = crypto.createHash("md5").update(buffer).digest("base64");
 
   const client = createClient(credentials);
+
+  // Credenciais não configuradas — lançar erro específico para fallback
+  if (!client) {
+    const err = new Error(
+      "[BACKBLAZE] Credenciais não configuradas: defina BACKBLAZE_KEY_ID e BACKBLAZE_APPLICATION_KEY",
+    );
+    (err as any).code = "BACKBLAZE_CREDENTIALS_MISSING";
+    throw err;
+  }
 
   try {
     await client.send(

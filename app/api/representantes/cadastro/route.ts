@@ -114,8 +114,10 @@ export async function POST(req: NextRequest) {
 
     // ── Upload Backblaze (staging/prod — VERCEL=1) ────────────────────────
     // Em DEV o backend QWork faz o upload; no Vercel a LP sobe diretamente.
+    // Se credenciais não existem — fallback para delegação ao QWork.
     const isVercel = process.env.VERCEL === "1";
     const backblazeUploads: Record<string, DocUploadResult> = {};
+    let backblazeCredentialsMissing = false;
 
     if (isVercel) {
       const { uploadDocumentoRepresentante } = await import(
@@ -173,11 +175,31 @@ export async function POST(req: NextRequest) {
           }
         }
       } catch (uploadErr) {
-        console.error("[REPRESENTANTE] Falha no upload Backblaze:", uploadErr);
-        return NextResponse.json(
-          { errors: { form: "Erro ao enviar documentos. Tente novamente." } },
-          { status: 503 },
-        );
+        const errMsg =
+          uploadErr instanceof Error ? uploadErr.message : String(uploadErr);
+
+        // Se credenciais não configuradas — fallback para DEV mode (repassa ao QWork)
+        if (
+          (uploadErr as any)?.code === "BACKBLAZE_CREDENTIALS_MISSING" ||
+          errMsg.includes("Credenciais não configuradas")
+        ) {
+          console.warn(
+            "[REPRESENTANTE] Credenciais Backblaze não configuradas — fallback para DEV mode (QWork fará upload)",
+          );
+          backblazeCredentialsMissing = true;
+          // Continuar normalmente — forwardData repassará os arquivos ao QWork
+        } else {
+          // Outros erros — rejeitar
+          console.error(
+            "[REPRESENTANTE] Falha no upload Backblaze:",
+            errMsg,
+            uploadErr,
+          );
+          return NextResponse.json(
+            { errors: { form: "Erro ao enviar documentos. Tente novamente." } },
+            { status: 503 },
+          );
+        }
       }
     }
 
@@ -215,14 +237,12 @@ export async function POST(req: NextRequest) {
       // Campos PF
       if (raw.tipoPessoa === "PF") {
         forwardData.append("cpf", raw.cpf ?? "");
-        if (isVercel) {
-          // Staging/prod: arquivos já foram enviados ao Backblaze; passa as chaves
-          if (backblazeUploads.cpf) {
-            forwardData.append("backblaze_key_cpf", backblazeUploads.cpf.key);
-            forwardData.append("backblaze_url_cpf", backblazeUploads.cpf.url);
-          }
+        if (isVercel && !backblazeCredentialsMissing && backblazeUploads.cpf) {
+          // Staging/prod com credenciais: arquivos já foram enviados ao Backblaze; passa as chaves
+          forwardData.append("backblaze_key_cpf", backblazeUploads.cpf.key);
+          forwardData.append("backblaze_url_cpf", backblazeUploads.cpf.url);
         } else {
-          // DEV: repassa o arquivo para o QWork fazer o upload
+          // DEV ou fallback (credenciais ausentes): repassa o arquivo para o QWork fazer o upload
           const docCpf = formData.get("documentoCpf") as File | null;
           if (docCpf && docCpf.size > 0)
             forwardData.append("documento_cpf", docCpf);
@@ -234,8 +254,8 @@ export async function POST(req: NextRequest) {
         forwardData.append("cnpj", raw.cnpj ?? "");
         forwardData.append("razao_social", raw.razaoSocial ?? "");
         forwardData.append("cpf_responsavel", raw.cpfResponsavel ?? "");
-        if (isVercel) {
-          // Staging/prod: passa as chaves Backblaze
+        if (isVercel && !backblazeCredentialsMissing) {
+          // Staging/prod com credenciais: passa as chaves Backblaze
           if (backblazeUploads.cnpj) {
             forwardData.append("backblaze_key_cnpj", backblazeUploads.cnpj.key);
             forwardData.append("backblaze_url_cnpj", backblazeUploads.cnpj.url);
@@ -251,7 +271,7 @@ export async function POST(req: NextRequest) {
             );
           }
         } else {
-          // DEV: repassa os arquivos para o QWork fazer o upload
+          // DEV ou fallback (credenciais ausentes): repassa os arquivos para o QWork fazer o upload
           const docCnpj = formData.get("documentoCnpj") as File | null;
           const docCpfResp = formData.get(
             "documentoCpfResponsavel",
